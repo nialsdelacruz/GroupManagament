@@ -26,10 +26,10 @@ namespace Coding.PlayBall.GroupManagement.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
 
             app.UseMvc();
         }
