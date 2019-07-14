@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Coding.PlayBall.GroupManagement.Web.Demo
+namespace PlayBall.GroupManagement.Web.Demo
 {
     
 

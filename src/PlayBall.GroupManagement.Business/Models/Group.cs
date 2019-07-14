@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PlayBall.GroupManagement.Web.Models
+namespace PlayBall.GroupManagement.Business.Models
 {
-    public class GroupViewModel
+    public class Group
     {
         public long Id { get; set; }
         public string Name { get; set; }
-
     }
 }

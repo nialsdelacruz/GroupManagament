@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Coding.PlayBall.GroupManagement.Web.Demo;
+using PlayBall.GroupManagement.Web.Demo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using PlayBall.GroupManagement.Business.Services;
+using PlayBall.GroupMangament.Business.Imp.Services;
 
 namespace Coding.PlayBall.GroupManagement.Web
 {
@@ -17,7 +19,7 @@ namespace Coding.PlayBall.GroupManagement.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<IGroupIdGenerator, GroupIdGenerator>();
+            services.AddSingleton<IGroupsService, InMemoryGroupsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

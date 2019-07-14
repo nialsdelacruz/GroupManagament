@@ -1,11 +1,11 @@
 ﻿//using Coding.PlayBall.GroupManagement.Web.Demo;
-using Coding.PlayBall.GroupManagement.Web.Demo;
-using Coding.PlayBall.GroupManagement.Web.Models;
+using PlayBall.GroupManagement.Web.Models;
+using PlayBall.GroupManagement.Web.Mappings;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
+using PlayBall.GroupManagement.Business.Services;
 
-namespace Coding.PlayBall.GroupManagement.Web.Controllers
+namespace GroupManagement.Web.Controllers
 {
     //localhost:5000/groups
     [Route("groups")]
@@ -16,40 +16,43 @@ namespace Coding.PlayBall.GroupManagement.Web.Controllers
             new GroupViewModel { Id = 1, Name = "Group 1" }
         };
 
-        private readonly IGroupIdGenerator _groupIdGenerator;
+        private readonly IGroupsService _groupService;
         
-        public GroupsController(IGroupIdGenerator groupIdGenerator)
+        public GroupsController(IGroupsService groupService)
         {
-            _groupIdGenerator = groupIdGenerator;
+            _groupService = groupService;
         }
 
+        // Index
         [HttpGet]
         [Route("")]
         public IActionResult Index()
         {
-            return View(groups);
+            return View(_groupService.GetAll().ToViewModel());
         }
 
+        // Details
         [HttpGet]
         [Route("{id}")]
         public IActionResult Details(long id)
         {
-            var group = groups.SingleOrDefault(g => g.Id == id);
+            var group = _groupService.GetById(id);
 
             if (group == null)
             {
                 return NotFound();
             }
 
-            return View(group);
+            return View(group.ToViewModel());
         }
 
+        // Update 
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(long id, GroupViewModel model)
         {
-            var group = groups.SingleOrDefault(g => g.Id == id);
+            var group = _groupService.Update(model.ToServiceModel());
 
             if (group == null)
             {
@@ -60,6 +63,7 @@ namespace Coding.PlayBall.GroupManagement.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        // Create (Get View)
         [HttpGet]
         [Route("create")]
         public IActionResult Create()
@@ -67,12 +71,12 @@ namespace Coding.PlayBall.GroupManagement.Web.Controllers
             return View();
         }
 
+        // Create (Insert action)
         [HttpPost]
         [Route("")]
         public IActionResult CreateRecord(GroupViewModel model)
         {
-            model.Id = _groupIdGenerator.Next();
-            groups.Add(model);
+            _groupService.Add(model.ToServiceModel());
             return RedirectToAction("Index");
         }
 
